@@ -70,8 +70,57 @@ function Save-AdapterConfig {
 
 function Test-GameRoot {
     param([string]$Path)
-    if ([string]::IsNullOrWhiteSpace($Path)) { return $false }
-    return (Test-Path -LiteralPath (Join-Path $Path "resources\app\index.html") -PathType Leaf)
+    return $null -ne (Get-GameInfo $Path)
+}
+
+function Get-GameInfo {
+    param([string]$Path)
+
+    if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
+    $appDir = Join-Path $Path "resources\app"
+    $indexPath = Join-Path $appDir "index.html"
+    if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) { return $null }
+
+    $packagePath = Join-Path $appDir "package.json"
+    $packageName = ""
+    $productName = ""
+    if (Test-Path -LiteralPath $packagePath -PathType Leaf) {
+        try {
+            $package = (Read-TextFile $packagePath) | ConvertFrom-Json
+            $packageName = [string]$package.name
+            if ($package.PSObject.Properties.Name -contains "buildKey") {
+                $productName = [string]$package.buildKey.productName
+            }
+        } catch {
+        }
+    }
+
+    $html = ""
+    try { $html = Read-TextFile $indexPath } catch { }
+    $exeNames = @()
+    Get-ChildItem -LiteralPath $Path -Filter "*.exe" -File -ErrorAction SilentlyContinue | ForEach-Object {
+        $exeNames += $_.Name
+    }
+
+    $probe = (($Path, $packageName, $productName, $html, ($exeNames -join " ")) -join "`n")
+    if ($probe -match "(?i)trials in tainted space|tits\.exe|com\.fenoxo\.tits|\btits\b") {
+        return [pscustomobject]@{
+            Key = "TiTS"
+            Name = "Trials in Tainted Space"
+            ShortName = "TiTS"
+            ExeName = "TiTS.exe"
+        }
+    }
+    if ($probe -match "(?i)coc2|corruption of champions ii|CoC II\.exe") {
+        return [pscustomobject]@{
+            Key = "CoC2"
+            Name = "Corruption of Champions II"
+            ShortName = "CoC2"
+            ExeName = "CoC II.exe"
+        }
+    }
+
+    return $null
 }
 
 function Resolve-GameRoot {
@@ -84,7 +133,7 @@ function Resolve-GameRoot {
         if ($item.Name -ieq "index.html" -and $item.Directory.Name -ieq "app") {
             return $item.Directory.Parent.Parent.FullName
         }
-        if ($item.Name -ieq "CoC II.exe") {
+        if ($item.Name -ieq "CoC II.exe" -or $item.Name -ieq "TiTS.exe") {
             return $item.DirectoryName
         }
         return ""
@@ -194,14 +243,14 @@ function Find-GameRoot {
     $configured = Resolve-GameRoot ([string]$Config.gamePath)
     if (Test-GameRoot $configured) { return $configured }
 
+    foreach ($dir in Search-Directories -Roots (Get-SearchRoots $Config) -MaxDepth 3) {
+        if (Test-GameRoot $dir) { return $dir }
+    }
+
     $luna = Find-LunaRoot $Config
     foreach ($savedPath in Get-LunaSavedGamePaths $luna) {
         $root = Resolve-GameRoot $savedPath
         if (Test-GameRoot $root) { return $root }
-    }
-
-    foreach ($dir in Search-Directories -Roots (Get-SearchRoots $Config) -MaxDepth 3) {
-        if (Test-GameRoot $dir) { return $dir }
     }
 
     return ""
@@ -302,7 +351,7 @@ Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "CoC2 Luna Adapter Setup"
+$form.Text = "CoC2 / TiTS Luna Adapter Setup"
 $form.StartPosition = "CenterScreen"
 $form.Size = New-Object System.Drawing.Size(760, 520)
 $form.MinimumSize = New-Object System.Drawing.Size(720, 480)
@@ -311,7 +360,7 @@ $font = New-Object System.Drawing.Font("Microsoft YaHei UI", 9)
 $form.Font = $font
 
 $labelGame = New-Object System.Windows.Forms.Label
-$labelGame.Text = "CoC2 path (game folder or CoC II.exe)"
+$labelGame.Text = "Game path (CoC2/TiTS folder, CoC II.exe, or TiTS.exe)"
 $labelGame.Location = New-Object System.Drawing.Point(16, 18)
 $labelGame.Size = New-Object System.Drawing.Size(300, 22)
 $form.Controls.Add($labelGame)
@@ -420,8 +469,8 @@ function Save-CurrentConfig {
 
 $buttonGame.Add_Click({
     $dialog = New-Object System.Windows.Forms.OpenFileDialog
-    $dialog.Title = "Select CoC II.exe"
-    $dialog.Filter = "CoC II.exe|CoC II.exe|Executable files|*.exe|All files|*.*"
+    $dialog.Title = "Select CoC II.exe or TiTS.exe"
+    $dialog.Filter = "Supported games|CoC II.exe;TiTS.exe|Executable files|*.exe|All files|*.*"
     if (-not [string]::IsNullOrWhiteSpace($textGame.Text) -and (Test-Path -LiteralPath $textGame.Text)) {
         $root = Resolve-GameRoot $textGame.Text
         if (-not [string]::IsNullOrWhiteSpace($root)) {
@@ -457,9 +506,10 @@ $buttonDetect.Add_Click({
         $luna = Find-LunaRoot $current
         if (-not [string]::IsNullOrWhiteSpace($game)) {
             $textGame.Text = $game
-            Add-Log "Found CoC2: $game"
+            $info = Get-GameInfo $game
+            Add-Log "Found $($info.ShortName): $game"
         } else {
-            Add-Log "CoC2 was not found. Click Browse and select CoC II.exe."
+            Add-Log "No supported game was found. Click Browse and select CoC II.exe or TiTS.exe."
         }
         if (-not [string]::IsNullOrWhiteSpace($luna)) {
             $textLuna.Text = $luna
@@ -499,9 +549,9 @@ function Run-Setup {
         $result = Invoke-Installer -GamePath $textGame.Text.Trim() -LunaRoot $textLuna.Text.Trim() -TcpPort ([int]$numericPort.Value) -ConfigureLuna $checkLuna.Checked -Uninstall $Uninstall
         Add-Log $result.Output
         if ($result.ExitCode -eq 0) {
-            [System.Windows.Forms.MessageBox]::Show($form, "Done.", "CoC2 Luna Adapter", "OK", "Information") | Out-Null
+            [System.Windows.Forms.MessageBox]::Show($form, "Done.", "CoC2 / TiTS Luna Adapter", "OK", "Information") | Out-Null
         } else {
-            [System.Windows.Forms.MessageBox]::Show($form, "Failed. See log for details.", "CoC2 Luna Adapter", "OK", "Error") | Out-Null
+            [System.Windows.Forms.MessageBox]::Show($form, "Failed. See log for details.", "CoC2 / TiTS Luna Adapter", "OK", "Error") | Out-Null
         }
     } catch {
         Add-Log "Setup error: $($_.Exception.Message)"
@@ -517,7 +567,7 @@ $buttonInstall.Add_Click({ Run-Setup -Uninstall $false })
 $buttonUninstall.Add_Click({ Run-Setup -Uninstall $true })
 
 $form.Add_Shown({
-    Add-Log "Tip: click Auto Detect first. If it fails, click Browse and select CoC II.exe."
+    Add-Log "Tip: click Auto Detect first. If it fails, click Browse and select CoC II.exe or TiTS.exe."
     if ([string]::IsNullOrWhiteSpace($textGame.Text) -or [string]::IsNullOrWhiteSpace($textLuna.Text)) {
         $buttonDetect.PerformClick()
     }

@@ -23,7 +23,7 @@ $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 function Write-Step {
     param([string]$Message)
-    Write-Host "[CoC2-Luna] $Message" -ForegroundColor Cyan
+    Write-Host "[Fenoxo-Luna] $Message" -ForegroundColor Cyan
 }
 
 function Write-Ok {
@@ -110,9 +110,57 @@ function Use-AdapterConfig {
 
 function Test-GameRoot {
     param([string]$Path)
-    if ([string]::IsNullOrWhiteSpace($Path)) { return $false }
+    return $null -ne (Get-GameInfo $Path)
+}
+
+function Get-GameInfo {
+    param([string]$Path)
+
+    if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
     $appDir = Join-Path $Path "resources\app"
-    return (Test-Path -LiteralPath (Join-Path $appDir "index.html") -PathType Leaf)
+    $indexPath = Join-Path $appDir "index.html"
+    if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) { return $null }
+
+    $packagePath = Join-Path $appDir "package.json"
+    $packageName = ""
+    $productName = ""
+    if (Test-Path -LiteralPath $packagePath -PathType Leaf) {
+        try {
+            $package = (Read-TextFile $packagePath) | ConvertFrom-Json
+            $packageName = [string]$package.name
+            if ($package.PSObject.Properties.Name -contains "buildKey") {
+                $productName = [string]$package.buildKey.productName
+            }
+        } catch {
+        }
+    }
+
+    $html = ""
+    try { $html = Read-TextFile $indexPath } catch { }
+    $exeNames = @()
+    Get-ChildItem -LiteralPath $Path -Filter "*.exe" -File -ErrorAction SilentlyContinue | ForEach-Object {
+        $exeNames += $_.Name
+    }
+
+    $probe = (($Path, $packageName, $productName, $html, ($exeNames -join " ")) -join "`n")
+    if ($probe -match "(?i)trials in tainted space|tits\.exe|com\.fenoxo\.tits|\btits\b") {
+        return [pscustomobject]@{
+            Key = "TiTS"
+            Name = "Trials in Tainted Space"
+            ShortName = "TiTS"
+            ExeName = "TiTS.exe"
+        }
+    }
+    if ($probe -match "(?i)coc2|corruption of champions ii|CoC II\.exe") {
+        return [pscustomobject]@{
+            Key = "CoC2"
+            Name = "Corruption of Champions II"
+            ShortName = "CoC2"
+            ExeName = "CoC II.exe"
+        }
+    }
+
+    return $null
 }
 
 function Get-LunaSavedGamePaths {
@@ -163,7 +211,7 @@ function ConvertTo-GameRoot {
         return $item.Parent.FullName
     }
 
-    throw "Cannot identify this path as a CoC2 game directory: $Path"
+    throw "Cannot identify this path as a supported Fenoxo game directory: $Path"
 }
 
 function Get-UniqueExistingDirs {
@@ -205,7 +253,7 @@ function Find-GameRoot {
     if (-not [string]::IsNullOrWhiteSpace($GamePath)) {
         $root = ConvertTo-GameRoot $GamePath
         if (Test-GameRoot $root) { return $root }
-        throw "The resolved directory does not look like a CoC2 Electron directory: $root"
+        throw "The resolved directory does not look like a supported CoC2/TiTS Electron directory: $root"
     }
 
     $lunaForDetection = $null
@@ -213,14 +261,6 @@ function Find-GameRoot {
         $lunaForDetection = Find-LunaRoot
     } catch {
         $lunaForDetection = $null
-    }
-
-    foreach ($savedPath in Get-LunaSavedGamePaths $lunaForDetection) {
-        try {
-            $root = ConvertTo-GameRoot $savedPath
-            if (Test-GameRoot $root) { return $root }
-        } catch {
-        }
     }
 
     $roots = Get-UniqueExistingDirs @(
@@ -240,7 +280,15 @@ function Find-GameRoot {
         }
     }
 
-    throw "CoC2 was not found automatically. Use -GamePath to specify CoC II.exe or the game directory."
+    foreach ($savedPath in Get-LunaSavedGamePaths $lunaForDetection) {
+        try {
+            $root = ConvertTo-GameRoot $savedPath
+            if (Test-GameRoot $root) { return $root }
+        } catch {
+        }
+    }
+
+    throw "No supported game was found automatically. Use -GamePath to specify CoC II.exe, TiTS.exe, or the game directory."
 }
 
 function Test-LunaRoot {
@@ -275,7 +323,7 @@ function New-BackupDir {
     param([string]$BaseDir)
 
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-    $backupDir = Join-Path $BaseDir ".luna-coc2-backups\$stamp"
+    $backupDir = Join-Path $BaseDir ".luna-fenoxo-backups\$stamp"
     New-Item -ItemType Directory -Force -Path $backupDir | Out-Null
     return $backupDir
 }
@@ -408,9 +456,10 @@ function Configure-Luna {
 
 try {
     Use-AdapterConfig
-    Write-Step "Starting CoC2 Luna adapter setup."
+    Write-Step "Starting Fenoxo Luna adapter setup."
     $gameRoot = Find-GameRoot
-    Write-Ok "CoC2 directory: $gameRoot"
+    $gameInfo = Get-GameInfo $gameRoot
+    Write-Ok "$($gameInfo.ShortName) directory: $gameRoot"
 
     if ($Uninstall) {
         Uninstall-GameAdapter -GameRoot $gameRoot
@@ -430,7 +479,7 @@ try {
 
     Save-AdapterConfig -Path $ConfigPath -ResolvedGamePath $gameRoot -ResolvedLunaRoot $luna -ResolvedTcpPort $TcpPort
 
-    Write-Ok "Install complete. Start LunaTranslator first, then start CoC2 for embedded translation."
+    Write-Ok "Install complete. Start LunaTranslator first, then start the game for embedded translation."
     exit 0
 } catch {
     Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
