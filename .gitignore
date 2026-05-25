@@ -1,0 +1,13 @@
+# Local path settings
+adapter-config.local.json
+
+# Generated packages and temporary test fixtures
+*.zip
+.test-*
+
+# Installer/runtime backups
+.luna-coc2-backups/
+
+# Windows noise
+Thumbs.db
+Desktop.ini
