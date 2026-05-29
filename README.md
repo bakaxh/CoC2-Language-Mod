@@ -10,12 +10,12 @@
 install.bat
 ```
 
-双击后会打开图形界面：
+双击后会打开中文图形界面：
 
-- 点 `Auto Detect` 自动查找 CoC2 / TiTS 和 LunaTranslator
-- 自动查找失败时，点游戏路径旁边的 `Browse...`，选择 `CoC II.exe` 或 `TiTS.exe`
-- 点 LunaTranslator 旁边的 `Browse...`，选择 LunaTranslator 根目录
-- 点 `Install / Update` 安装或更新适配器
+- 点 `自动查找` 自动查找 CoC2 / TiTS 和 LunaTranslator
+- 自动查找失败时，点游戏路径旁边的 `浏览...`，选择 `CoC II.exe` 或 `TiTS.exe`
+- 点 LunaTranslator 旁边的 `浏览...`，选择 LunaTranslator 根目录
+- 点 `安装 / 更新` 安装或更新适配器
 
 路径会保存到 `adapter-config.json`，下一次打开会自动带出。
 
@@ -65,7 +65,7 @@ http://127.0.0.1:2333/api/translate
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -GamePath "D:\Games\CoC_II-0.8.35-win" -Uninstall
 ```
 
-也可以双击 `install.bat`，在图形界面里点 `Uninstall`。
+也可以双击 `install.bat`，在图形界面里点 `卸载`。
 
 卸载只移除游戏里的适配器入口和适配 JS，不会关闭 LunaTranslator 的本地 API。
 

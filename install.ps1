@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 [CmdletBinding()]
 param(
     [string]$GamePath = "",
@@ -11,6 +11,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+try {
+    [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+} catch {
+}
 
 $AdapterFileName = "coc2-luna-adapter.js"
 $AdapterSource = Join-Path $PSScriptRoot "adapter\$AdapterFileName"
@@ -28,12 +32,12 @@ function Write-Step {
 
 function Write-Ok {
     param([string]$Message)
-    Write-Host "[OK] $Message" -ForegroundColor Green
+    Write-Host "[完成] $Message" -ForegroundColor Green
 }
 
 function Write-Note {
     param([string]$Message)
-    Write-Host "[Note] $Message" -ForegroundColor Yellow
+    Write-Host "[提示] $Message" -ForegroundColor Yellow
 }
 
 function Read-TextFile {
@@ -59,7 +63,7 @@ function Read-AdapterConfig {
     try {
         return (Read-TextFile $Path) | ConvertFrom-Json
     } catch {
-        Write-Note "Could not read adapter config; ignoring it: $Path"
+        Write-Note "无法读取适配器配置，已忽略: $Path"
         return $null
     }
 }
@@ -81,7 +85,7 @@ function Save-AdapterConfig {
     }
     $json = ($config | ConvertTo-Json -Depth 10) + "`r`n"
     Write-TextFile -Path $Path -Text $json
-    Write-Ok "Saved adapter config: $Path"
+    Write-Ok "已保存适配器配置: $Path"
 }
 
 function Use-AdapterConfig {
@@ -211,7 +215,7 @@ function ConvertTo-GameRoot {
         return $item.Parent.FullName
     }
 
-    throw "Cannot identify this path as a supported Fenoxo game directory: $Path"
+    throw "无法把这个路径识别为支持的 Fenoxo 游戏目录: $Path"
 }
 
 function Get-UniqueExistingDirs {
@@ -253,7 +257,7 @@ function Find-GameRoot {
     if (-not [string]::IsNullOrWhiteSpace($GamePath)) {
         $root = ConvertTo-GameRoot $GamePath
         if (Test-GameRoot $root) { return $root }
-        throw "The resolved directory does not look like a supported CoC2/TiTS Electron directory: $root"
+        throw "解析出的目录不像支持的 CoC2/TiTS Electron 游戏目录: $root"
     }
 
     $lunaForDetection = $null
@@ -288,7 +292,7 @@ function Find-GameRoot {
         }
     }
 
-    throw "No supported game was found automatically. Use -GamePath to specify CoC II.exe, TiTS.exe, or the game directory."
+    throw "没有自动找到支持的游戏。请使用 -GamePath 指定 CoC II.exe、TiTS.exe 或游戏目录。"
 }
 
 function Test-LunaRoot {
@@ -301,7 +305,7 @@ function Find-LunaRoot {
     if (-not [string]::IsNullOrWhiteSpace($LunaRoot)) {
         $root = (Resolve-Path -LiteralPath $LunaRoot -ErrorAction Stop).ProviderPath
         if (Test-LunaRoot $root) { return $root }
-        throw "The specified LunaRoot does not contain userconfig\config.json: $LunaRoot"
+        throw "指定的 LunaRoot 中没有 userconfig\config.json: $LunaRoot"
     }
 
     $roots = Get-UniqueExistingDirs @(
@@ -343,7 +347,7 @@ function Install-GameAdapter {
     param([string]$GameRoot)
 
     if (-not (Test-Path -LiteralPath $AdapterSource -PathType Leaf)) {
-        throw "Adapter file is missing: $AdapterSource"
+        throw "缺少适配脚本文件: $AdapterSource"
     }
 
     $appDir = Join-Path $GameRoot "resources\app"
@@ -364,13 +368,13 @@ function Install-GameAdapter {
             $html = $html + "`r`n" + $ScriptTag
         }
         Write-TextFile -Path $indexPath -Text $html
-        Write-Ok "Injected the adapter entry into index.html."
+        Write-Ok "已把适配器入口注入 index.html。"
     } else {
-        Write-Ok "index.html already contains the adapter entry; skipped duplicate injection."
+        Write-Ok "index.html 已包含适配器入口，已跳过重复注入。"
     }
 
-    Write-Ok "Installed $AdapterFileName."
-    Write-Note "Backup directory: $backupDir"
+    Write-Ok "已安装 $AdapterFileName。"
+    Write-Note "备份目录: $backupDir"
 }
 
 function Uninstall-GameAdapter {
@@ -389,16 +393,16 @@ function Uninstall-GameAdapter {
         $newHtml = [regex]::Replace($html, $ScriptRegex, "")
         if ($newHtml -ne $html) {
             Write-TextFile -Path $indexPath -Text $newHtml
-            Write-Ok "Removed the adapter entry from index.html."
+            Write-Ok "已从 index.html 移除适配器入口。"
         }
     }
 
     if (Test-Path -LiteralPath $targetAdapter -PathType Leaf) {
         Remove-Item -LiteralPath $targetAdapter -Force
-        Write-Ok "Deleted $AdapterFileName."
+        Write-Ok "已删除 $AdapterFileName。"
     }
 
-    Write-Note "Backup directory before uninstall: $backupDir"
+    Write-Note "卸载前备份目录: $backupDir"
 }
 
 function Set-JsonProperty {
@@ -424,13 +428,13 @@ function Configure-Luna {
     param([string]$Root)
 
     if ([string]::IsNullOrWhiteSpace($Root)) {
-        Write-Note "LunaTranslator root was not found; skipped local API config. Use -LunaRoot to specify it."
+        Write-Note "没有找到 LunaTranslator 根目录，已跳过本地 API 配置。可用 -LunaRoot 手动指定。"
         return
     }
 
     $running = Get-Process -Name "LunaTranslator", "LunaTranslator_admin" -ErrorAction SilentlyContinue
     if ($running) {
-        Write-Note "LunaTranslator is running. If it overwrites config on exit, close Luna and run this installer again."
+        Write-Note "LunaTranslator 正在运行。如果 Luna 退出时覆盖配置，请关闭 Luna 后重新运行本安装器。"
     }
 
     $configPath = Join-Path $Root "userconfig\config.json"
@@ -442,7 +446,7 @@ function Configure-Luna {
     $changed = (Set-JsonProperty -Object $config -Name "networktcpport" -Value $TcpPort) -or $changed
 
     if (-not $changed) {
-        Write-Ok "Luna local API is already enabled on port $TcpPort."
+        Write-Ok "Luna 本地 API 已在端口 $TcpPort 启用。"
         return
     }
 
@@ -450,21 +454,21 @@ function Configure-Luna {
     Backup-File -Path $configPath -BackupDir $backupDir
     $newJson = $config | ConvertTo-Json -Depth 100
     Write-TextFile -Path $configPath -Text ($newJson + "`r`n")
-    Write-Ok "Enabled Luna local API on port $TcpPort."
-    Write-Note "Luna config backup directory: $backupDir"
+    Write-Ok "已启用 Luna 本地 API，端口 $TcpPort。"
+    Write-Note "Luna 配置备份目录: $backupDir"
 }
 
 try {
     Use-AdapterConfig
-    Write-Step "Starting Fenoxo Luna adapter setup."
+    Write-Step "正在配置 Fenoxo Luna 适配器。"
     $gameRoot = Find-GameRoot
     $gameInfo = Get-GameInfo $gameRoot
-    Write-Ok "$($gameInfo.ShortName) directory: $gameRoot"
+    Write-Ok "$($gameInfo.ShortName) 目录: $gameRoot"
 
     if ($Uninstall) {
         Uninstall-GameAdapter -GameRoot $gameRoot
         Save-AdapterConfig -Path $ConfigPath -ResolvedGamePath $gameRoot -ResolvedLunaRoot $LunaRoot -ResolvedTcpPort $TcpPort
-        Write-Ok "Uninstall complete."
+        Write-Ok "卸载完成。"
         exit 0
     }
 
@@ -479,9 +483,9 @@ try {
 
     Save-AdapterConfig -Path $ConfigPath -ResolvedGamePath $gameRoot -ResolvedLunaRoot $luna -ResolvedTcpPort $TcpPort
 
-    Write-Ok "Install complete. Start LunaTranslator first, then start the game for embedded translation."
+    Write-Ok "安装完成。请先启动 LunaTranslator，再启动游戏以使用内嵌翻译。"
     exit 0
 } catch {
-    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "[错误] $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }

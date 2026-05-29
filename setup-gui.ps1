@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 param(
     [switch]$DetectOnly
 )
@@ -316,6 +316,12 @@ function Invoke-Installer {
     $psi.RedirectStandardOutput = $true
     $psi.RedirectStandardError = $true
     $psi.CreateNoWindow = $true
+    try {
+        $utf8 = New-Object System.Text.UTF8Encoding($false)
+        $psi.StandardOutputEncoding = $utf8
+        $psi.StandardErrorEncoding = $utf8
+    } catch {
+    }
 
     $process = New-Object System.Diagnostics.Process
     $process.StartInfo = $psi
@@ -351,7 +357,7 @@ Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "CoC2 / TiTS Luna Adapter Setup"
+$form.Text = "CoC2 / TiTS LunaTranslator 内嵌适配器"
 $form.StartPosition = "CenterScreen"
 $form.Size = New-Object System.Drawing.Size(760, 520)
 $form.MinimumSize = New-Object System.Drawing.Size(720, 480)
@@ -360,7 +366,7 @@ $font = New-Object System.Drawing.Font("Microsoft YaHei UI", 9)
 $form.Font = $font
 
 $labelGame = New-Object System.Windows.Forms.Label
-$labelGame.Text = "Game path (CoC2/TiTS folder, CoC II.exe, or TiTS.exe)"
+$labelGame.Text = "游戏路径（CoC2/TiTS 文件夹、CoC II.exe 或 TiTS.exe）"
 $labelGame.Location = New-Object System.Drawing.Point(16, 18)
 $labelGame.Size = New-Object System.Drawing.Size(300, 22)
 $form.Controls.Add($labelGame)
@@ -373,14 +379,14 @@ $textGame.Text = [string]$config.gamePath
 $form.Controls.Add($textGame)
 
 $buttonGame = New-Object System.Windows.Forms.Button
-$buttonGame.Text = "Browse..."
+$buttonGame.Text = "浏览..."
 $buttonGame.Location = New-Object System.Drawing.Point(626, 40)
 $buttonGame.Size = New-Object System.Drawing.Size(100, 28)
 $buttonGame.Anchor = "Top,Right"
 $form.Controls.Add($buttonGame)
 
 $labelLuna = New-Object System.Windows.Forms.Label
-$labelLuna.Text = "LunaTranslator folder"
+$labelLuna.Text = "LunaTranslator 目录"
 $labelLuna.Location = New-Object System.Drawing.Point(16, 82)
 $labelLuna.Size = New-Object System.Drawing.Size(300, 22)
 $form.Controls.Add($labelLuna)
@@ -393,14 +399,14 @@ $textLuna.Text = [string]$config.lunaRoot
 $form.Controls.Add($textLuna)
 
 $buttonLuna = New-Object System.Windows.Forms.Button
-$buttonLuna.Text = "Browse..."
+$buttonLuna.Text = "浏览..."
 $buttonLuna.Location = New-Object System.Drawing.Point(626, 104)
 $buttonLuna.Size = New-Object System.Drawing.Size(100, 28)
 $buttonLuna.Anchor = "Top,Right"
 $form.Controls.Add($buttonLuna)
 
 $labelPort = New-Object System.Windows.Forms.Label
-$labelPort.Text = "Luna local API port"
+$labelPort.Text = "Luna 本地 API 端口"
 $labelPort.Location = New-Object System.Drawing.Point(16, 146)
 $labelPort.Size = New-Object System.Drawing.Size(160, 22)
 $form.Controls.Add($labelPort)
@@ -416,33 +422,33 @@ $numericPort.Value = $portValue
 $form.Controls.Add($numericPort)
 
 $checkLuna = New-Object System.Windows.Forms.CheckBox
-$checkLuna.Text = "Configure Luna local API automatically"
+$checkLuna.Text = "自动配置 Luna 本地 API"
 $checkLuna.Location = New-Object System.Drawing.Point(306, 145)
 $checkLuna.Size = New-Object System.Drawing.Size(300, 24)
 $checkLuna.Checked = $true
 $form.Controls.Add($checkLuna)
 
 $buttonDetect = New-Object System.Windows.Forms.Button
-$buttonDetect.Text = "Auto Detect"
+$buttonDetect.Text = "自动查找"
 $buttonDetect.Location = New-Object System.Drawing.Point(16, 188)
 $buttonDetect.Size = New-Object System.Drawing.Size(115, 32)
 $form.Controls.Add($buttonDetect)
 
 $buttonSave = New-Object System.Windows.Forms.Button
-$buttonSave.Text = "Save Config"
+$buttonSave.Text = "保存配置"
 $buttonSave.Location = New-Object System.Drawing.Point(142, 188)
 $buttonSave.Size = New-Object System.Drawing.Size(115, 32)
 $form.Controls.Add($buttonSave)
 
 $buttonInstall = New-Object System.Windows.Forms.Button
-$buttonInstall.Text = "Install / Update"
+$buttonInstall.Text = "安装 / 更新"
 $buttonInstall.Location = New-Object System.Drawing.Point(438, 188)
 $buttonInstall.Size = New-Object System.Drawing.Size(135, 32)
 $buttonInstall.Anchor = "Top,Right"
 $form.Controls.Add($buttonInstall)
 
 $buttonUninstall = New-Object System.Windows.Forms.Button
-$buttonUninstall.Text = "Uninstall"
+$buttonUninstall.Text = "卸载"
 $buttonUninstall.Location = New-Object System.Drawing.Point(584, 188)
 $buttonUninstall.Size = New-Object System.Drawing.Size(142, 32)
 $buttonUninstall.Anchor = "Top,Right"
@@ -464,13 +470,13 @@ function Add-Log {
 
 function Save-CurrentConfig {
     Save-AdapterConfig -GamePath $textGame.Text.Trim() -LunaRoot $textLuna.Text.Trim() -TcpPort ([int]$numericPort.Value)
-    Add-Log "Config saved: $ConfigPath"
+    Add-Log "已保存配置: $ConfigPath"
 }
 
 $buttonGame.Add_Click({
     $dialog = New-Object System.Windows.Forms.OpenFileDialog
-    $dialog.Title = "Select CoC II.exe or TiTS.exe"
-    $dialog.Filter = "Supported games|CoC II.exe;TiTS.exe|Executable files|*.exe|All files|*.*"
+    $dialog.Title = "选择 CoC II.exe 或 TiTS.exe"
+    $dialog.Filter = "支持的游戏|CoC II.exe;TiTS.exe|可执行文件|*.exe|所有文件|*.*"
     if (-not [string]::IsNullOrWhiteSpace($textGame.Text) -and (Test-Path -LiteralPath $textGame.Text)) {
         $root = Resolve-GameRoot $textGame.Text
         if (-not [string]::IsNullOrWhiteSpace($root)) {
@@ -484,7 +490,7 @@ $buttonGame.Add_Click({
 
 $buttonLuna.Add_Click({
     $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
-    $dialog.Description = "Select LunaTranslator folder"
+    $dialog.Description = "选择 LunaTranslator 目录"
     if (-not [string]::IsNullOrWhiteSpace($textLuna.Text) -and (Test-Path -LiteralPath $textLuna.Text -PathType Container)) {
         $dialog.SelectedPath = $textLuna.Text
     }
@@ -496,7 +502,7 @@ $buttonLuna.Add_Click({
 $buttonDetect.Add_Click({
     $form.Cursor = [System.Windows.Forms.Cursors]::WaitCursor
     try {
-        Add-Log "Auto detecting paths..."
+        Add-Log "正在自动查找路径..."
         $current = [pscustomobject]@{
             gamePath = $textGame.Text.Trim()
             lunaRoot = $textLuna.Text.Trim()
@@ -507,18 +513,18 @@ $buttonDetect.Add_Click({
         if (-not [string]::IsNullOrWhiteSpace($game)) {
             $textGame.Text = $game
             $info = Get-GameInfo $game
-            Add-Log "Found $($info.ShortName): $game"
+            Add-Log "已找到 $($info.ShortName): $game"
         } else {
-            Add-Log "No supported game was found. Click Browse and select CoC II.exe or TiTS.exe."
+            Add-Log "未找到支持的游戏。请点“浏览...”选择 CoC II.exe 或 TiTS.exe。"
         }
         if (-not [string]::IsNullOrWhiteSpace($luna)) {
             $textLuna.Text = $luna
-            Add-Log "Found LunaTranslator: $luna"
+            Add-Log "已找到 LunaTranslator: $luna"
         } else {
-            Add-Log "LunaTranslator was not found. Click Browse and select its folder."
+            Add-Log "未找到 LunaTranslator。请点“浏览...”选择 LunaTranslator 目录。"
         }
     } catch {
-        Add-Log "Detect error: $($_.Exception.Message)"
+        Add-Log "自动查找失败: $($_.Exception.Message)"
     } finally {
         $form.Cursor = [System.Windows.Forms.Cursors]::Default
     }
@@ -528,7 +534,7 @@ $buttonSave.Add_Click({
     try {
         Save-CurrentConfig
     } catch {
-        [System.Windows.Forms.MessageBox]::Show($form, $_.Exception.Message, "Save failed", "OK", "Error") | Out-Null
+        [System.Windows.Forms.MessageBox]::Show($form, $_.Exception.Message, "保存失败", "OK", "Error") | Out-Null
     }
 })
 
@@ -542,20 +548,20 @@ function Run-Setup {
         Save-CurrentConfig
         Add-Log ""
         if ($Uninstall) {
-            Add-Log "Running uninstall..."
+            Add-Log "正在卸载..."
         } else {
-            Add-Log "Running install/update..."
+            Add-Log "正在安装/更新..."
         }
         $result = Invoke-Installer -GamePath $textGame.Text.Trim() -LunaRoot $textLuna.Text.Trim() -TcpPort ([int]$numericPort.Value) -ConfigureLuna $checkLuna.Checked -Uninstall $Uninstall
         Add-Log $result.Output
         if ($result.ExitCode -eq 0) {
-            [System.Windows.Forms.MessageBox]::Show($form, "Done.", "CoC2 / TiTS Luna Adapter", "OK", "Information") | Out-Null
+            [System.Windows.Forms.MessageBox]::Show($form, "完成。", "CoC2 / TiTS LunaTranslator 内嵌适配器", "OK", "Information") | Out-Null
         } else {
-            [System.Windows.Forms.MessageBox]::Show($form, "Failed. See log for details.", "CoC2 / TiTS Luna Adapter", "OK", "Error") | Out-Null
+            [System.Windows.Forms.MessageBox]::Show($form, "失败，请查看日志。", "CoC2 / TiTS LunaTranslator 内嵌适配器", "OK", "Error") | Out-Null
         }
     } catch {
-        Add-Log "Setup error: $($_.Exception.Message)"
-        [System.Windows.Forms.MessageBox]::Show($form, $_.Exception.Message, "Setup failed", "OK", "Error") | Out-Null
+        Add-Log "安装器错误: $($_.Exception.Message)"
+        [System.Windows.Forms.MessageBox]::Show($form, $_.Exception.Message, "安装失败", "OK", "Error") | Out-Null
     } finally {
         $buttonInstall.Enabled = $true
         $buttonUninstall.Enabled = $true
@@ -567,7 +573,7 @@ $buttonInstall.Add_Click({ Run-Setup -Uninstall $false })
 $buttonUninstall.Add_Click({ Run-Setup -Uninstall $true })
 
 $form.Add_Shown({
-    Add-Log "Tip: click Auto Detect first. If it fails, click Browse and select CoC II.exe or TiTS.exe."
+    Add-Log "提示：先点“自动查找”。如果找不到，请点“浏览...”选择 CoC II.exe 或 TiTS.exe。"
     if ([string]::IsNullOrWhiteSpace($textGame.Text) -or [string]::IsNullOrWhiteSpace($textLuna.Text)) {
         $buttonDetect.PerformClick()
     }
