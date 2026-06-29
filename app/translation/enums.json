@@ -3,6 +3,16 @@
   "Interface...": "界面...",
   "UI Assets...": "UI 资源...",
   "Development Build 0.8.38": "开发版本 0.8.38",
+
+  "Hawkethorne": "霍克索恩",
+  "Cait": "凯特琳娜",
+  "Magos": "魔导师",
+  "Evelyn": "伊芙琳",
+  "Shieldbearer": "盾手",
+
+  "Wicker Shield": "柳条盾",
+  "Dagger": "匕首",
+
   "Man": "男人",
   "Woman": "女人",
   "Feminine": "女性化",
@@ -450,8 +460,6 @@
   "girly chest": "女孩气的胸部",
   "boyish chest": "男孩气的胸部",
 
-  "Hawkethorne": "霍克索恩",
-  "Cait": "凯特琳娜",
   "Tab": "标签",
   "Page": "页面",
   "Magical": "魔法",

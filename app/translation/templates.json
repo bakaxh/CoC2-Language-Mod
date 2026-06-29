@@ -1,166 +1,152 @@
-[
-  {
-    "match": "Corruption of Champions II: Spread of Corruption\n%s\n\nCreated by Savin\nLead Writing: Savin | Lead Coding: UpcastDrake | Lead Arting: Moira\nEditing by",
-    "trans": "冠军的腐败 II：腐败的蔓延\n%s\n\n由Savin创作\n主笔：Savin | 主编码：UpcastDrake | 主美： Moira\n编辑："
-  },
-  {
-    "match": "Loading %s",
-    "trans": "加载 %s"
-  },
-  {
-    "match": "You are currently: %s.\n\nBy default, the game will refer to you as a: %s. You may also choose your identity explicitly if you prefer. This selection may be changed at-will from the Appearance tab in the Journal.",
-    "trans": "你当前是: %s。\n\n默认情况下，游戏会称你为: %s。如果你愿意，也可以明确选择你的身份。该选择可随时在日志的“外观”标签页更改。"
-  },
-  {
-    "match": "Hair Length: %d\" (%d cm)",
-    "trans": "发长：%d英寸（%d厘米）"
-  },
-  {
-    "match": "Height: %d'%d\" (%d cm)",
-    "trans": "身高：%d英尺%d英寸（%d厘米）"
-  },
-  {
-    "match": "Breast Cup: %s",
-    "trans": "乳房罩杯：%s"
-  },
-  {
-    "match": "Cock Length: %d\" (%d cm)",
-    "trans": "阴茎长度：%d英寸（%d厘米）"
-  },
-  { "match": "Spellpower: %d", "trans": "法术力量：%d" },
-
-  {
-    "match": "Example Descriptors: %s %s;%s %s;%s %s",
-    "trans": "示例描述：%s%s;%s%s;%s%s"
-  },
-  {
-    "match": "Example Descriptors: %s %s;%s %s;%s %s\n\n%s",
-    "trans": "示例描述：%s%s;%s%s;%s%s\n\n%s"
-  },
-  {
-    "match": "Example Descriptors: %s %s;%s %s;%s",
-    "trans": "示例描述：%s%s;%s%s;%s"
-  },
-  {
-    "match": "Example Descriptors: %s %s;%s %s;%s\n\n%s",
-    "trans": "示例描述：%s%s;%s%s;%s\n\n%s"
-  },
-  {
-    "match": "Example Descriptors: %s %s;%s;%s %s",
-    "trans": "示例描述：%s%s;%s;%s%s"
-  },
-  {
-    "match": "Example Descriptors: %s %s;%s;%s %s\n\n%s",
-    "trans": "示例描述：%s%s;%s;%s%s\n\n%s"
-  },
-
-  {
-    "match": "Example Descriptors: %s %s;%s;%s",
-    "trans": "示例描述：%s%s;%s;%s"
-  },
-
-  {
-    "match": "Example Descriptors: %s %s;%s;%s\n\n%s",
-    "trans": "示例描述：%s%s;%s;%s\n\n%s"
-  },
-  {
-    "match": "Example Descriptors: %s;%s %s;%s %s",
-    "trans": "示例描述：%s;%s%s;%s%s"
-  },
-  {
-    "match": "Example Descriptors: %s;%s %s;%s %s\n\n%s",
-    "trans": "示例描述：%s;%s%s;%s%s\n\n%s"
-  },
-  {
-    "match": "Example Descriptors: %s;%s %s;%s",
-    "trans": "示例描述：%s;%s%s;%s"
-  },
-
-  {
-    "match": "Example Descriptors: %s;%s %s;%s\n\n%s",
-    "trans": "示例描述：%s;%s%s;%s\n\n%s"
-  },
-  {
-    "match": "Example Descriptors: %s;%s;%s %s",
-    "trans": "示例描述：%s;%s;%s%s"
-  },
-  {
-    "match": "Example Descriptors: %s;%s;%s %s\n\n%s",
-    "trans": "示例描述：%s;%s;%s%s\n\n%s"
-  },
-  { "match": "Example Descriptors: %s;%s;%s", "trans": "示例描述：%s;%s;%s" },
-  {
-    "match": "Example Descriptors: %s;%s;%s\n\n%s",
-    "trans": "示例描述：%s;%s;%s\n\n%s"
-  },
-
-  { "match": "◄ %s", "trans": "◄ %s" },
-  { "match": "%s ►", "trans": "%s ►" },
-  { "match": "Artist: %s", "trans": "艺术家：%s" },
-  { "match": "Value: %d", "trans": "价值：%d" },
-  { "match": "Evasion: %d", "trans": "闪避：%d" },
-  { "match": "Magic Resist: %d", "trans": "魔法抗性：%d" },
-  { "match": "Armor: %d", "trans": "护甲：%d" },
-  { "match": "Physical Resist: %d", "trans": "物理抗性：%d" },
-  { "match": "Ward: %d", "trans": "选区：%d" },
-  { "match": "Temptation: %d", "trans": "诱惑：%d" },
-  { "match": "Sexiness: %d", "trans": "性感度：%d" },
-  { "match": "Crit: %d", "trans": "暴击：%d" },
-  { "match": "Exp: %d/%d", "trans": "经验：%d/%d" },
-  { "match": "Level: %d", "trans": "等级：%d" },
-  { "match": "Day: %d", "trans": "天数：%d" },
-  { "match": "Time: %s", "trans": "时间：%s" },
-  { "match": "Gender: %s", "trans": "性别：%s" },
-  { "match": "Location:\n%s", "trans": "地点：\n%s" },
-  { "match": "Damage Reduction: %s", "trans": "伤害减免：%s" },
-  { "match": "Cultist %s", "trans": "邪教徒 %s" },
-  { "match": "Party:\n%s", "trans": "队伍：\n%s" },
-  { "match": "Party:\n%s\n%s", "trans": "队伍：\n%s\n%s" },
-  { "match": "Party:\n%s\n%s\n%s", "trans": "队伍：\n%s\n%s\n%s" },
-  { "match": "Party:\n%s\n%s\n%s\n%s", "trans": "队伍：\n%s\n%s\n%s\n%s" },
-  {
-    "match": "Party:\n%s\n%s\n%s\n%s\n%s",
-    "trans": "队伍：\n%s\n%s\n%s\n%s\n%s"
-  },
-  {
-    "match": "Turn: %d",
-    "trans": "回合：%d"
-  },
-  { "match": "for %d turns.", "trans": "持续 %d 回合。" },
-  {
-    "match": "Value: %d\n\nSpellpower: %d\nSpell Pen: %d\nAccuracy: %d\n\nAttack: %s\nCrushing: %d\n\n%s",
-    "trans": "价值：%d\n\n法术力量：%d\n法术穿透：%d\n准确度：%d\n\n攻击：%s\n破碎：%d\n\n%s"
-  },
-  {
-    "match": "Your party gains %d Electrum Coins, %dx %s, and %d XP.",
-    "trans": "你的队伍获得 %d 枚古币、%dx %s 和 %d 点经验值。"
-  },
-  {
-    "match": "Make an attack with your rusty knife dealing %d Crushing.",
-    "trans": "用生锈的刀攻击，造成 %d 点粉碎伤害。"
-  },
-  {
-    "match": "with your %s. Your swing connects with",
-    "trans": "用你的 %s。你的挥杆击中了"
-  },
-  {
-    "match": "You don't have the required %s EC.",
-    "trans": "你没有要求的 %s EC。"
-  },
-  {
-    "match": "(Day %d %s)",
-    "trans": "（第%d天 %s）"
-  },
-  {
-    "match": "%dmL",
-    "trans": "%d毫升"
-  },
-  {
-    "match": "%d min",
-    "trans": "%d分钟"
-  },
-    {
-    "match": "%d hr",
-    "trans": "%d小时"
-  }
-]
+{
+  "Corruption of Champions II: Spread of Corruption\n%s\n\nCreated by Savin\nLead Writing: Savin | Lead Coding: UpcastDrake | Lead Arting: Moira\nEditing by": "冠军的腐败 II：腐败的蔓延\n%s\n\n由Savin创作\n主笔：Savin | 主编码：UpcastDrake | 主美： Moira\n编辑：",
+  "Loading %s": "加载 %s",
+  "You are currently: %s.\n\nBy default, the game will refer to you as a: %s. You may also choose your identity explicitly if you prefer. This selection may be changed at-will from the Appearance tab in the Journal.": "你当前是: %s。\n\n默认情况下，游戏会称你为: %s。如果你愿意，也可以明确选择你的身份。该选择可随时在日志的\"外观\"标签页更改。",
+  "Hair Length: %d\" (%d cm)": "发长：%d英寸（%d厘米）",
+  "Height: %d'%d\" (%d cm)": "身高：%d英尺%d英寸（%d厘米）",
+  "Breast Cup: %s": "乳房罩杯：%s",
+  "Cock Length: %d\" (%d cm)": "阴茎长度：%d英寸（%d厘米）",
+  "Spellpower: %d": "法术力量：%d",
+  "Example Descriptors: %s %s;%s %s;%s %s": "示例描述：%s%s;%s%s;%s%s",
+  "Example Descriptors: %s %s;%s %s;%s %s\n\n%s": "示例描述：%s%s;%s%s;%s%s\n\n%s",
+  "Example Descriptors: %s %s;%s %s;%s": "示例描述：%s%s;%s%s;%s",
+  "Example Descriptors: %s %s;%s %s;%s\n\n%s": "示例描述：%s%s;%s%s;%s\n\n%s",
+  "Example Descriptors: %s %s;%s;%s %s": "示例描述：%s%s;%s;%s%s",
+  "Example Descriptors: %s %s;%s;%s %s\n\n%s": "示例描述：%s%s;%s;%s%s\n\n%s",
+  "Example Descriptors: %s %s;%s;%s": "示例描述：%s%s;%s;%s",
+  "Example Descriptors: %s %s;%s;%s\n\n%s": "示例描述：%s%s;%s;%s\n\n%s",
+  "Example Descriptors: %s;%s %s;%s %s": "示例描述：%s;%s%s;%s%s",
+  "Example Descriptors: %s;%s %s;%s %s\n\n%s": "示例描述：%s;%s%s;%s%s\n\n%s",
+  "Example Descriptors: %s;%s %s;%s": "示例描述：%s;%s%s;%s",
+  "Example Descriptors: %s;%s %s;%s\n\n%s": "示例描述：%s;%s%s;%s\n\n%s",
+  "Example Descriptors: %s;%s;%s %s": "示例描述：%s;%s;%s%s",
+  "Example Descriptors: %s;%s;%s %s\n\n%s": "示例描述：%s;%s;%s%s\n\n%s",
+  "Example Descriptors: %s;%s;%s": "示例描述：%s;%s;%s",
+  "Example Descriptors: %s;%s;%s\n\n%s": "示例描述：%s;%s;%s\n\n%s",
+  "◄ %s": "◄ %s",
+  "%s ►": "%s ►",
+  "Artist: %s": "艺术家：%s",
+  "Value: %d": "价值：%d",
+  "Evasion: %d": "闪避：%d",
+  "Magic Resist: %d": "魔法抗性：%d",
+  "Armor: %d": "护甲：%d",
+  "Physical Resist: %d": "物理抗性：%d",
+  "Ward: %d": "选区：%d",
+  "Temptation: %d": "诱惑：%d",
+  "Sexiness: %d": "性感度：%d",
+  "Crit: %d": "暴击：%d",
+  "Exp: %d/%d": "经验：%d/%d",
+  "Level: %d": "等级：%d",
+  "Day: %d": "天数：%d",
+  "Time: %s": "时间：%s",
+  "Gender: %s": "性别：%s",
+  "Location:\n%s": "地点：\n%s",
+  "Damage Reduction: %s": "伤害减免：%s",
+  "Cultist %s": "邪教徒 %s",
+  "Party:\n%s": "队伍：\n%s",
+  "Party:\n%s\n%s": "队伍：\n%s\n%s",
+  "Party:\n%s\n%s\n%s": "队伍：\n%s\n%s\n%s",
+  "Party:\n%s\n%s\n%s\n%s": "队伍：\n%s\n%s\n%s\n%s",
+  "Party:\n%s\n%s\n%s\n%s\n%s": "队伍：\n%s\n%s\n%s\n%s\n%s",
+  "Turn: %d": "回合：%d",
+  "for %d turns.": "持续 %d 回合。",
+  "Value: %d\n\nSpellpower: %d\nSpell Pen: %d\nAccuracy: %d\n\nAttack: %s\nCrushing: %d\n\n%s": "价值：%d\n\n法术力量：%d\n法术穿透：%d\n准确度：%d\n\n攻击：%s\n破碎：%d\n\n%s",
+  "Your party gains %d Electrum Coins, %dx %s, and %d XP.": "\n\n你的队伍获得 %d 枚古币、%dx %s 和 %d 点经验值。",
+  "Make an attack with your rusty knife dealing %d Crushing.": "用生锈的刀攻击，造成 %d 点粉碎伤害。",
+  "with your %s. Your swing connects with": "用你的 %s。你的挥杆击中了",
+  "You don't have the required %s EC.": "你没有要求的 %s EC。",
+  "(Day %d %s)": "（第%d天 %s）",
+  "%dmL": "%d毫升",
+  "%d min": "%d分钟",
+  "%d hr": "%d小时",
+  "Unwanted arousal imparts %s Spellpower and Mental Resistance.": "不受欢迎的兴奋会赋予 %s 法术力和精神抗性。",
+  "Virility is increased by %d%%.": "阳刚气概提升 %d%%。",
+  "You're being shielded by another force, absorbing some damage taken.\n\nShield Amount: %d": "你被另一股力量护盾，吸收了一些伤害。\n\n护盾数量：%d",
+  "You are currently maintaining a Guarded Stance. You gain a %s bonus to Evasion and Armor, and generate": "你现在处于戒备姿态。你会获得 %s 的闪避和护甲加成，并生成",
+  "Threat each turn and %s more Threat from abilities": "每回合增加威胁值，技能带来的威胁值增加 %s。",
+  "\"Thanks, %s! You know just what a girl needs.\"": "\"谢谢，%s！你知道女孩需要什么。\"",
+  "\"%s what're you-\"": "\"%s，你在干什么——\"",
+  "\"These aren't exactly romantic circumstances, but I need you at your best, %s, so... so why don't you let me take care of that real quick?\"": "\"这可不算浪漫，但我需要你保持最佳状态，%s，所以......那你让我来处理一下吧？\"",
+  "\"You go ahead, %s. I... I'd like to be alone for a little while.\"": "\"你先去吧，%s。我......我想一个人呆一会儿。\"",
+  "\"And Calla... how am I going to get her back, %s? How... where did she even go?\"": "\"还有卡拉......我怎么才能把她找回来，%s？怎么......她到底去哪儿了？\"",
+  "\"I'm going to cum right into your stomach, %s. You just make": "\"我要射进你肚子里，%s。你只要做",
+  "\"Of course I'd like to fuck you, %s. That's why you asked. Now... are you a virgin at all?\"": "\"当然我想操你，%s。这就是你问的原因。现在......你是处女吗？\"",
+  "\"you can offer me one of your virginities. Take your pick, %s.\"": "\"你可以给我一个你的童贞。随你挑，%s。\"",
+  "\"Here, %s. Let me watch you bounce on": "\"给你，%s。让我看你舞动起来",
+  "\"I like this dance, %s,\"": "\"我喜欢这支舞，%s，\"",
+  "\"Gods, %s\"": "\"天哪，%s\"",
+  "\"Very well done, %s. I permit you to talk — though you might wish to wait until you're done.\"": "\"做得非常好，%s。我允许你说话——不过你可能想等说完再说。\"",
+  "\"But I do so love the attention you give my nethers, %s. Now, what should I have you do for me?\"": "\"但我真的很喜欢你给我下体的关注，%s。现在，我该让你为我做些什么？\"",
+  "\"Like you might a princess, %s. Worship her royal body. And if you don't want to do that, well,\"": "\"就像你是公主一样，%s。崇拜她的皇室身体。如果你不想那样做，嗯，\"",
+  "\"Help me out of my dress, %s.\"": "\"帮我脱掉裙子，%s。\"",
+  "\"Oh, %s...\"": "\"哦，%s......\"",
+  "\"I know you would, %s,\"": "\"我知道你会的，%s，\"",
+  "\"Very good, %s,\"": "\"非常好，%s，\"",
+  "\"Lick them clean, %s. They're going to be slapping against your nose very soon, so take good care of them.\"": "\"舔干净，%s。它们很快就会拍打你的鼻子，所以好好照顾它们。\"",
+  "\"You'll want to take a big breath, %s. I don't intend to stop even if you're gagging,\"": "\"你得深呼吸，%s。即使你呕吐，我也不打算停。\"",
+  "\"You're doing so well, %s.\"": "\"你做得真好，%s。\"",
+  "\"So, %s,\"": "\"所以，%s，\"",
+  "\"Dearest %s, please come and visit me again. Yours, Evelyn.\"": "\"亲爱的%s，请再来看看我。你的，伊芙琳。\"",
+  "\"Come to see the place, %s?\"": "\"来看这地方，%s？\"",
+  "\"Relax, %s. It's not going in all at once, we're going to work on it like we did my fingers,\"": "\"放轻松，%s。不是一下子全部进去，我们要像处理我的手指那样慢慢处理。\"",
+  "\"Thank you, %s.\"": "\"谢谢你，%s。\"",
+  "around my cock. How's your first dry orgasm, %s? Do you like it?\"": "绕着我的阴茎。你第一次干高潮怎么样，%s？你喜欢吗？\"",
+  "\"Nngh! Get nice and used to the feeling of my cum awash in your ass, %s. Good girl...\"": "\"嗯！好好适应我精液流进你屁股的感觉，%s。好女孩......\"",
+  "\"Let me show you how good this can feel, %s.\"": "\"让我来告诉你这感觉有多好，%s。\"",
+  "\"you can offer me your virginity. Take your pick, %s.\"": "\"你可以把你的处女之身献给我。随你挑，%s。\"",
+  "\"I'm flattered, %s. Come here.\"": "\"我很受宠若惊，%s。过来。\"",
+  "\"You have a cute asshole between those cheeks of yours, %s. I think you have a lot of promise.\"": "\"你屁股中间有个可爱的屁眼，%s。我觉得你很有潜力。\"",
+  "\"Take a deep breath, %s,\"": "\"深呼吸，%s，\"",
+  "\"Take it all off, %s. And let me see you do it.\"": "\"全脱掉，%s。让我看看你怎么做。\"",
+  "\"You've given me some fun ideas for games, %s,\"": "\"你给了我一些有趣的游戏点子，%s，\"",
+  "\"Hold it open for me, %s.\"": "\"帮我撑开，%s。\"",
+  "\"Now that you've drained me like a keg, I'd like to get properly clean. Mind shifting, %s?\"": "\"既然你把我榨干得像桶一样，我想好好清理一下。心灵转移，%s？\"",
+  "\"Do come back soon, %s,\"": "\"一定要快点回来，%s。\"",
+  "\"%s, I'm getting so close now,\"": "\"该死，我快要成功了，%s\"",
+  "\"%s, the next time you masturbate, I want you to think of me,\"": "\"%s，下次你手淫时，我想让你想着我，\"",
+  "\"You know your station well, %s.\"": "\"你很清楚你的身份，%s。\"",
+  "\"I don't know if you realize quite how much of an enigma you are, %s. Do you appear in front of all of the damsels in distress, or is it just me?\"": "\"我不知道你是否意识到你有多神秘，%s。你是出现在所有落难少女面前，还是只有我？\"",
+  "\"you can turn around, bend over, and put your hands against the door so I can fill your vagina out. Consider your choices wisely, %s.\"": "\"你可以转过身，弯腰，把手撑在门上，这样我就能填满你的阴道。请明智地考虑你的选择，%s。\"",
+  "\"You know, you're the first person to do this for me, %s. I think I quite like it.\"": "\"你知道吗，你是第一个为我做这件事的人，%s。我觉得我挺喜欢的。\"",
+  "\"Cum for me, %s!\"": "\"为我射，%s！\"",
+  "\"Very well done, %s,\"": "\"干得漂亮，%s。\"",
+  "you came, %s, but recent troubles haven't been making it any better, either. About two to three weeks before you arrived in Hawkethorne, we got word that strange things had been going on near the camp. Animals acting oddly, getting too close to the palisades when they should've been rightfully scared of people. A series of close shaves with things in the darkness, too close together to be mere coincidence.": "你来了，%s，但最近的麻烦也没让情况好转。大约在你抵达霍克索恩前两三周，我们收到消息说营地附近发生了奇怪的事情。动物行为怪异，理应害怕人类却靠得太近栅栏。一连串与黑暗中物品擦身而过的擦肩，距离太近，绝非巧合。",
+  "\"You thirsty there, %s?\"": "\"你渴了吗，%s？\"",
+  "\"Like I said, %s, it's on the western edge of the woods by the river. Most who travel in that direction do so by barge, but you're better off following the old logging trails, even if they haven't been used for a while. Going to be hard to convince anyone to pole a barge upriver these days.\"": "\"就像我说的，，它就在树林西边，靠近河边。大多数朝那个方向旅行的人乘驳船，但你最好沿着老伐木小径走，即使它们已经有一段时间没人用了。现在要说服任何人用撑杆把驳船逆流而上可真难。\"",
+  "\"Well, that's about it, %s. If you need more camping supplies, you can always buy some from Leorah. Good luck out there — or at least, better luck than what some others have been having...\"": "\"嗯，差不多就是这样，%s。如果你需要更多露营用品，也可以从Leorah那里买一些。祝你好运——或者至少比其他人好运......\"",
+  "\"%s! It's good to see you. Come in!\"": "\"呃！很高兴见到你。进来吧！\"",
+  "\"I don't mind you staring, %s,\"": "\"我不介意你盯着看，%s，\"",
+  "\"You are a very genuine person, %s. I appreciate that. And, well,\"": "\"你是个非常真诚的人，%s。我很感激。而且，嗯，\"",
+  "\"Sorry I'm being so vague, %s,\"": "\"抱歉我说得这么含糊，%s，\"",
+  "\"Oh, %s,\"": "\"哦，%s，\"",
+  "\"Oohh... thank you, %s,\"": "\"哦......谢谢你，%s。\"",
+  "\"Ever since that flash of light up on the hill. Lit up the night for miles around, even through the storm. Brought that old temple down on you. You're lucky you survived, %s.\"": "\"自从山上那道闪光之后。即使在风暴中，夜晚也照亮了周围数英里。把那座老庙砸了下来。你能活下来真是幸运，真是太好了。\"",
+  "\"Speaking of which, there's something you should know, %s. A couple days after the explosion, hunters started pouring back into town babbling about plant creatures attacking them, animals gone mad. Some didn't come back at all. Between that and the orc tribes east of here showing their faces after the storm, folk are afraid to leave town. Uh, no offense, %s.\"": "\"说到这个，有件事你得知道，%s。爆炸几天后，猎人们开始涌入镇上，喋喋不休地说植物生物攻击他们，动物疯狂。有些甚至完全没有回来。再加上风暴过后东边的兽人部落露面，人们害怕离开城镇。呃，没冒犯的意思，%s。\"",
+  "\"Hah! Don't discount her, %s. My own wife whelped in the morning and was plowing the fields by midday. She's her mother's daughter, no two ways about it. We're a line of hardy, hearty folk, and Gwyn's mother was an exceptional woman. I miss her, I really do.\"": "\"哈！别小看她，%s。我自己的妻子早上生小孩，中午时分就开始耕田。她是她母亲的女儿，毫无疑问。我们家族坚韧健壮，格温的母亲是个非凡的女人。我真的很想她。\"",
+  "\"Don't forget, you've been doting on %s here like a mother hen while she slept.\"": "\"别忘了，你一直像母鸡一样照顾她睡觉。\"",
+  "\"Sure, %s. That's pretty much what we bartenders are for — that, and listening to sob stories.\"": "\"当然，%s。这基本上就是我们酒保的职责——还有听人诉苦。\"",
+  "\"Nobody blames you, %s. If anybody, it's those freaks who attacked Cait and her sister we ought to be putting to task for this mess... if we could find 'em. Since we can't, it wouldn't hurt to talk to an expert.\"": "\"没人怪你，%s。如果说是那些攻击凯特和她妹妹的怪胎，我们应该为这场混乱找回麻烦......如果我们能找到他们。既然不能，找专家聊聊也无妨。\"",
+  "\"Sure, %s,\"": "\"当然，%s，\"",
+  "\"I think you and I are going to be perfect together, %s.\"": "\"我觉得你我会很般配，%s。\"",
+  "\"Come here, %s,\"": "\"过来，%s，\"",
+  "\"How far can you get on your own, %s?\"": "\"你一个人能走多远，%s？\"",
+  ", %s,\"": "，%s，\"",
+  "\"Am I distracting you from something, %s?\"": "\"我是不是打扰你了，%s？\"",
+  "\"How are you feeling, %s?\"": "\"你感觉怎么样，%s？\"",
+  "\"So! Anything else on your mind, %s?\"": "\"那么！还有什么想说的吗，%s？\"",
+  "\"Sure, %s. What's on your mind?\"": "\"当然，%s。你在想什么？\"",
+  "\"Oh, I'm nothing too special, %s. Hawkethorne's village priest is probably a more potent spellcaster than I am. I just picked up a few things here and there, mostly from temple acolytes too bored to shoo off little ol' me lookin' over their shoulders.\"": "\"哦，我没什么特别的，%s。霍克索恩的村庄牧师可能比我更强。我只是零零散散地学了点东西，大多是从那些太无聊的寺庙侍从那里，不想赶走我这个小人物，总是在他们身后盯着他们。\"",
+  "\"I'm sorry! I can't take my own craft seriously sometimes... which I should, considering demons and all. I'm trying to learn more fighty spells, %s, so don't feel the need to fuss over me in a fight — I can take care of myself, when I'm not getting jumped out of the shadows, anyway.\"": "\"对不起！有时候我对自己的手艺不够认真......考虑到恶魔的存在，我应该这么做。我正在学更多战斗法术，%s，所以别在战斗中为心——只要我没被从阴影里突然袭击，我自己能照顾好自己。\"",
+  "\"That's okay, I understand! I'm just glad I said something. Even Mallach would say a night of passion's not worth a lifetime of hurt feelings. Thanks for being honest, %s. Now, let's get back to it, hmm?\"": "\"没关系，我理解！我只是很高兴我说了点什么。连马拉克都会说，一夜激情不值得一辈子的伤心。谢谢你的坦诚，%s。现在，我们继续吧，嗯？\"",
+  "\"%s? Is that you?\"": "\"%s？是你吗？\"",
+  "\"Good night, %s,\"": "\"晚安，%s，\"",
+  "\"%s. A moment.\"": "\"不，%s,等一下。\"",
+  "Control your character in combat by selecting actions from the button menu. You have three special abilities already: an at-will power, a power that recharges after a few turns, and one power that can only be used once per encounter. Use them strategically to overcome enemies!\n\nA character's Health is represented by the red bar around their portrait. If that reaches zero, that character is defeated and can no longer act.\n\nIf %s is defeated, combat ends... but that's rarely the end of things. After each combat, you regenerate half of any Health lost in that fight.": "通过从按钮菜单中选择动作来控制你的角色进行战斗。你已经拥有三个特殊技能：一个任意使用的技能、一个每几回合充能的技能，以及一个每次遭遇只能使用一次的技能。合理使用它们来击败敌人吧！\n\n角色的生命值由头像周围的红色条表示。如果生命值降为零，该角色就会被击败，无法再行动。\n\n如果 %s 被击败，战斗结束……但这通常不是事情的结束。在每次战斗后，你会恢复该战斗中损失生命值的一半。",
+  "\"You're an eager one, %s. I can feel just how hard and wet you're getting in my lap.\"": "\"你真是个热情的人，%s。我能感觉到你在我腿上变得多么坚硬和湿润。\"",
+  "\"Stupid, stupid, glory-seeking pup. By the time someone's wandered into the Frost Hound and told me what Garret was up to, he's already packed up and left. That was three days before you arrived, %s. Neither him nor anyone else from the logging camp have shown their faces in Hawkethorne since, and with all the nonsense happening of late no one's been able to go in and check on them.\"": "\"愚蠢、愚蠢、追求荣耀的小家伙。等有人走进冰霜猎犬告诉我加勒特在干什么时，他已经收拾好东西离开了。那是你来之前三天，%s。自那以后，他和伐木营地的其他人都没再出现在霍克索恩，最近发生的各种乱事也没人能进去看看他们。\"",
+  "\"Good girl, %s.\"": "\"乖女孩，%s。\"",
+  "\"Your donation's very much appreciated, %s. I'll personally make sure this is put to good use. I": "\"非常感谢你的捐赠，%s。我会亲自确保这些信息被好好利用。我",
+  "\"You make it so very hard not to ravage you sometimes, %s.\"": "\"有时候你真让人忍不住把自己折磨，%s。\"",
+  "\"Why, I believe you're eyeing me, %s.\"": "\"哎呀，我觉得你在盯着我看，%s。\"",
+  "\"The way you use those hands of yours is really quite special, %s,\"": "\"%s，你用那双手的方式真的很特别，真是太特别了，真是太棒了。\""
+}
