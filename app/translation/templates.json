@@ -94,6 +94,9 @@
     "trans": "示例描述：%s;%s;%s\n\n%s"
   },
 
+  { "match": "◄ %s", "trans": "◄ %s" },
+  { "match": "%s ►", "trans": "%s ►" },
+  { "match": "Artist: %s", "trans": "艺术家：%s" },
   { "match": "Value: %d", "trans": "价值：%d" },
   { "match": "Evasion: %d", "trans": "闪避：%d" },
   { "match": "Magic Resist: %d", "trans": "魔法抗性：%d" },
@@ -105,11 +108,22 @@
   { "match": "Crit: %d", "trans": "暴击：%d" },
   { "match": "Exp: %d/%d", "trans": "经验：%d/%d" },
   { "match": "Level: %d", "trans": "等级：%d" },
-  { "match": "Day: %d", "trans": "日：%d" },
-  { "match": "Time: %02d:%02d", "trans": "时间：%02d:%02d" },
+  { "match": "Day: %d", "trans": "天数：%d" },
+  { "match": "Time: %s", "trans": "时间：%s" },
   { "match": "Gender: %s", "trans": "性别：%s" },
-  { "match":"Location:\n%s","trans":"地点：\n%s"},
+  { "match": "Location:\n%s", "trans": "地点：\n%s" },
   { "match": "Damage Reduction: %s", "trans": "伤害减免：%s" },
   { "match": "Cultist %s", "trans": "邪教徒 %s" },
-  
+  { "match": "Party:\n%s", "trans": "队伍：\n%s" },
+  { "match": "Party:\n%s\n%s", "trans": "队伍：\n%s\n%s" },
+  { "match": "Party:\n%s\n%s\n%s", "trans": "队伍：\n%s\n%s\n%s" },
+  { "match": "Party:\n%s\n%s\n%s\n%s", "trans": "队伍：\n%s\n%s\n%s\n%s" },
+  {
+    "match": "Party:\n%s\n%s\n%s\n%s\n%s",
+    "trans": "队伍：\n%s\n%s\n%s\n%s\n%s"
+  },
+  {
+    "match": "Turn: %d",
+    "trans": "回合：%d"
+  }
 ]
