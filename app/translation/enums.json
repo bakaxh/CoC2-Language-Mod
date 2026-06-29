@@ -79,7 +79,7 @@
   "Petite": "娇小的",
   "Snug": "紧致的",
   "Cushiony": "柔软的",
-  "Incredibly" : "极其",
+  "Incredibly": "极其",
   "midriff": "腹部",
   "belly": "肚子",
   "hips": "臀部",
@@ -88,7 +88,7 @@
   "waspish, cow-like hips": "蜂腰的、牛般的臀部",
   "sides": "侧面",
   "inhumanly-wide sides": "宽得不像人类的侧面",
-  
+
   "butt": "屁股",
   "small butt": "小的屁股",
   "of butt": "的屁股",
@@ -448,5 +448,8 @@
   "tattooed chest": "纹身的胸部",
   "pierced chest": "穿环的胸部",
   "girly chest": "女孩气的胸部",
-  "boyish chest": "男孩气的胸部"
+  "boyish chest": "男孩气的胸部",
+
+  "Hawkethorne": "霍克索恩",
+  "Cait": "凯特琳娜"
 }
