@@ -125,5 +125,42 @@
   {
     "match": "Turn: %d",
     "trans": "回合：%d"
+  },
+  { "match": "for %d turns.", "trans": "持续 %d 回合。" },
+  {
+    "match": "Value: %d\n\nSpellpower: %d\nSpell Pen: %d\nAccuracy: %d\n\nAttack: %s\nCrushing: %d\n\n%s",
+    "trans": "价值：%d\n\n法术力量：%d\n法术穿透：%d\n准确度：%d\n\n攻击：%s\n破碎：%d\n\n%s"
+  },
+  {
+    "match": "Your party gains %d Electrum Coins, %dx %s, and %d XP.",
+    "trans": "你的队伍获得 %d 枚古币、%dx %s 和 %d 点经验值。"
+  },
+  {
+    "match": "Make an attack with your rusty knife dealing %d Crushing.",
+    "trans": "用生锈的刀攻击，造成 %d 点粉碎伤害。"
+  },
+  {
+    "match": "with your %s. Your swing connects with",
+    "trans": "用你的 %s。你的挥杆击中了"
+  },
+  {
+    "match": "You don't have the required %s EC.",
+    "trans": "你没有要求的 %s EC。"
+  },
+  {
+    "match": "(Day %d %s)",
+    "trans": "（第%d天 %s）"
+  },
+  {
+    "match": "%dmL",
+    "trans": "%d毫升"
+  },
+  {
+    "match": "%d min",
+    "trans": "%d分钟"
+  },
+    {
+    "match": "%d hr",
+    "trans": "%d小时"
   }
 ]
