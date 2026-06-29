@@ -1,0 +1,106 @@
+[
+  {
+    "match": "Corruption of Champions II: Spread of Corruption\n%s\n\nCreated by Savin\nLead Writing: Savin | Lead Coding: UpcastDrake | Lead Arting: Moira\nEditing by",
+    "trans": "冠军的腐败 II：腐败的蔓延\n%s\n\n由Savin创作\n主笔：Savin | 主编码：UpcastDrake | 主美： Moira\n编辑："
+  },
+  {
+    "match": "Loading %s",
+    "trans": "加载 %s"
+  },
+  {
+    "match": "You are currently: %s.\n\nBy default, the game will refer to you as a: %s. You may also choose your identity explicitly if you prefer. This selection may be changed at-will from the Appearance tab in the Journal.",
+    "trans": "你当前是: %s。\n\n默认情况下，游戏会称你为: %s。如果你愿意，也可以明确选择你的身份。该选择可随时在日志的“外观”标签页更改。"
+  },
+  {
+    "match": "Hair Length: %d\" (%d cm)",
+    "trans": "发长：%d英寸（%d厘米）"
+  },
+  {
+    "match": "Height: %d'%d\" (%d cm)",
+    "trans": "身高：%d英尺%d英寸（%d厘米）"
+  },
+  {
+    "match": "Breast Cup: %s",
+    "trans": "乳房罩杯：%s"
+  },
+  {
+    "match": "Cock Length: %d\" (%d cm)",
+    "trans": "阴茎长度：%d英寸（%d厘米）"
+  },
+  { "match": "Spellpower: %d", "trans": "法术力量：%d" },
+
+  {
+    "match": "Example Descriptors: %s %s;%s %s;%s %s",
+    "trans": "示例描述：%s%s;%s%s;%s%s"
+  },
+  {
+    "match": "Example Descriptors: %s %s;%s %s;%s %s\n\n%s",
+    "trans": "示例描述：%s%s;%s%s;%s%s\n\n%s"
+  },
+  {
+    "match": "Example Descriptors: %s %s;%s %s;%s",
+    "trans": "示例描述：%s%s;%s%s;%s"
+  },
+  {
+    "match": "Example Descriptors: %s %s;%s %s;%s\n\n%s",
+    "trans": "示例描述：%s%s;%s%s;%s\n\n%s"
+  },
+  {
+    "match": "Example Descriptors: %s %s;%s;%s %s",
+    "trans": "示例描述：%s%s;%s;%s%s"
+  },
+  {
+    "match": "Example Descriptors: %s %s;%s;%s %s\n\n%s",
+    "trans": "示例描述：%s%s;%s;%s%s\n\n%s"
+  },
+
+  {
+    "match": "Example Descriptors: %s %s;%s;%s",
+    "trans": "示例描述：%s%s;%s;%s"
+  },
+
+  {
+    "match": "Example Descriptors: %s %s;%s;%s\n\n%s",
+    "trans": "示例描述：%s%s;%s;%s\n\n%s"
+  },
+  {
+    "match": "Example Descriptors: %s;%s %s;%s %s",
+    "trans": "示例描述：%s;%s%s;%s%s"
+  },
+  {
+    "match": "Example Descriptors: %s;%s %s;%s %s\n\n%s",
+    "trans": "示例描述：%s;%s%s;%s%s\n\n%s"
+  },
+  {
+    "match": "Example Descriptors: %s;%s %s;%s",
+    "trans": "示例描述：%s;%s%s;%s"
+  },
+
+  {
+    "match": "Example Descriptors: %s;%s %s;%s\n\n%s",
+    "trans": "示例描述：%s;%s%s;%s\n\n%s"
+  },
+  {
+    "match": "Example Descriptors: %s;%s;%s %s",
+    "trans": "示例描述：%s;%s;%s%s"
+  },
+  {
+    "match": "Example Descriptors: %s;%s;%s %s\n\n%s",
+    "trans": "示例描述：%s;%s;%s%s\n\n%s"
+  },
+  { "match": "Example Descriptors: %s;%s;%s", "trans": "示例描述：%s;%s;%s" },
+  {
+    "match": "Example Descriptors: %s;%s;%s\n\n%s",
+    "trans": "示例描述：%s;%s;%s\n\n%s"
+  },
+
+  { "match": "Value: %d", "trans": "价值：%d" },
+  { "match": "Evasion: %d", "trans": "闪避：%d" },
+  { "match": "Magic Resist: %d", "trans": "魔法抗性：%d" },
+  { "match": "Armor: %d", "trans": "护甲：%d" },
+  { "match": "Physical Resist: %d", "trans": "物理抗性：%d" },
+  { "match": "Ward: %d", "trans": "选区：%d" },
+  { "match": "Temptation: %d", "trans": "诱惑：%d" },
+  { "match": "Sexiness: %d", "trans": "性感度：%d" },
+  { "match": "Crit: %d", "trans": "暴击：%d" }
+]
