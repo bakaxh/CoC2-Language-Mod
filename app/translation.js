@@ -1,6 +1,45 @@
 (function () {
   "use strict";
 
+  window.addEventListener("beforeunload", function () {
+    if (observer) {
+      observer.disconnect();
+    }
+    if (timer) {
+      cancelAnimationFrame(timer);
+      timer = null;
+    }
+    queue = [];
+  });
+
+  function showToast(message, duration) {
+    if (!document.body) return;
+    var toast = document.createElement("div");
+    toast.textContent = message;
+    Object.assign(toast.style, {
+      position: "fixed",
+      bottom: "20px",
+      left: "0px",
+      background: "rgba(36, 19, 11, 0.75)",
+      color: "#fff",
+      padding: "10px 20px",
+      zIndex: 9999,
+      fontSize: "14px",
+      fontFamily: "sans-serif",
+      opacity: "1",
+      transition: "opacity 0.5s ease",
+      pointerEvents: "none",
+    });
+    document.body.appendChild(toast);
+
+    setTimeout(function () {
+      toast.style.opacity = "0";
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 500);
+    }, duration);
+  }
+
   function loadJSON(path) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", path, false);
@@ -181,7 +220,7 @@
       .replace(/(\d+)\s*m\b/gi, "$1分钟");
     return r !== source ? r : "";
   }
-  
+
   var queue = [],
     timer = null;
   function processQueue() {
@@ -225,6 +264,9 @@
 
   function start() {
     if (document.body) {
+      var total = Object.keys(transMap).length;
+      showToast("翻译模组加载完成，已载入 " + total + " 条");
+
       scan(document.body);
       observer.observe(document.documentElement, {
         childList: true,
