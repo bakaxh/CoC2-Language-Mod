@@ -36,7 +36,7 @@
       toast.style.opacity = "0";
       setTimeout(function () {
         if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 500);
+      }, 5000);
     }, duration);
   }
 
@@ -87,31 +87,31 @@
     normalizedMap[normalize(key)] = transMap[key];
   }
 
-  var templateRules = []; // { regex: RegExp, trans: string, slots: ['d','s',...] }
+  var templateRules = [];
   var enumMap = {};
 
   try {
     var templatesData = loadJSON("./translation/templates.json");
-    if (Array.isArray(templatesData)) {
-      templatesData.forEach(function (rule) {
-        var matchStr = rule.match;
-        var transStr = rule.trans;
-        if (!matchStr || !transStr) return;
-
-        var escaped = matchStr.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        var slots = [];
-        var pattern = escaped.replace(/%(d|s)/g, function (_, type) {
-          slots.push(type);
-          return type === "d" ? "(\\d+)" : "(.+?)";
-        });
-
-        try {
-          var regex = new RegExp("^" + pattern + "$", "i");
-          templateRules.push({ regex: regex, trans: transStr, slots: slots });
-        } catch (e) {
-          console.warn("模板正则构建失败:", matchStr, e);
+    if (typeof templatesData === 'object' && templatesData !== null && !Array.isArray(templatesData)) {
+      for (var matchStr in templatesData) {
+        if (templatesData.hasOwnProperty(matchStr)) {
+          var transStr = templatesData[matchStr];
+          if (!matchStr || !transStr) continue;
+          var normalizedMatch = normalize(matchStr);
+          var escaped = normalizedMatch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          var slots = [];
+          var pattern = escaped.replace(/%(d|s)/g, function (_, type) {
+            slots.push(type);
+            return type === "d" ? "(\\d+)" : "(.+?)";
+          });
+          try {
+            var regex = new RegExp("^" + pattern + "$", "i");
+            templateRules.push({ regex: regex, trans: transStr, slots: slots });
+          } catch (e) {
+            console.warn("模板正则构建失败:", matchStr, e);
+          }
         }
-      });
+      }
     }
   } catch (e) {
     console.warn("templates.json 加载失败，将跳过模板翻译", e);
@@ -181,46 +181,53 @@
     return false;
   }
 
-  function localTranslate(source) {
-    console.log("T:", source);
-    if (!source) return "";
-    var nSource = normalize(source);
+function localTranslate(source) {
+  console.log("T:", source);
+  if (!source) return "";
+  var nSource = normalize(source);
 
-    // replace with normalized translation if available
-    if (normalizedMap[nSource]) return normalizedMap[nSource];
-
-    // replace with template rules if matched
-    for (var i = 0; i < templateRules.length; i++) {
-      var rule = templateRules[i];
-      var m = nSource.match(rule.regex);
-      if (!m) continue;
-
-      var values = [];
-      for (var j = 0; j < rule.slots.length; j++) {
-        var captured = m[j + 1];
-        if (rule.slots[j] === "s") {
-          values.push(translateEnumFragment(captured));
-        } else {
-          values.push(captured);
-        }
-      }
-
-      var result = rule.trans;
-      var valueIndex = 0;
-      result = result.replace(/%(d|s)/g, function () {
-        return values[valueIndex++] || "";
-      });
-      return result;
-    }
-
-    var r = source;
-    r = r
-      .replace(/(\d+)\s*d\b/gi, "$1天")
-      .replace(/(\d+)\s*h\b/gi, "$1小时")
-      .replace(/(\d+)\s*m\b/gi, "$1分钟");
-    return r !== source ? r : "";
+  if (normalizedMap[nSource]) {
+    console.log("精确匹配命中:\n", nSource, "\n->\n", normalizedMap[nSource]);
+    return normalizedMap[nSource];
   }
 
+  for (var i = 0; i < templateRules.length; i++) {
+    var rule = templateRules[i];
+    var m = nSource.match(rule.regex);
+    if (!m) continue;
+
+    console.log(
+      "\n模板匹配 #" + i,
+      "\n正则:", rule.regex.toString(),
+      "\n译文模板:", rule.trans,
+      "\n捕获组:", m.slice(1)
+    );
+
+    var values = [];
+    for (var j = 0; j < rule.slots.length; j++) {
+      var captured = m[j + 1];
+      if (rule.slots[j] === "s") {
+        values.push(translateEnumFragment(captured));
+      } else {
+        values.push(captured);
+      }
+    }
+
+    var result = rule.trans;
+    var valueIndex = 0;
+    result = result.replace(/%(d|s)/g, function () {
+      return values[valueIndex++] || "";
+    });
+    return result;
+  }
+
+  var r = source;
+  r = r
+    .replace(/(\d+)\s*d\b/gi, "$1天")
+    .replace(/(\d+)\s*h\b/gi, "$1小时")
+    .replace(/(\d+)\s*m\b/gi, "$1分钟");
+  return r !== source ? r : "";
+}
   var queue = [],
     timer = null;
   function processQueue() {
@@ -231,12 +238,15 @@
         !node.parentElement ||
         shouldSkip(node) ||
         !visibleOrTooltip(node.parentElement)
-      )
-        continue;
+      ) continue;
+      if (node._translated) continue;
       var src = node.data;
       if (!src || !/[A-Za-z]/.test(src)) continue;
       var trans = localTranslate(src);
-      if (trans) node.data = trans;
+      if (trans) {
+        node.data = trans;
+        node._translated = true;
+      }
     }
     if (queue.length) timer = requestAnimationFrame(processQueue);
     else timer = null;
