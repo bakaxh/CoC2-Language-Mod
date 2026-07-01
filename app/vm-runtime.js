@@ -1,5 +1,7 @@
 (() => {
-  console.log("[i18n] production runtime boot");
+  console.log("[i18n] translation runtime");
+  console.log("[i18n] by bakaxh");
+
   const DEBUG = true;
   const show = (str) => str.replace(/\n/g, "\\n");
   const log = (...a) => DEBUG && console.log(...a);
@@ -211,7 +213,7 @@
     if (typeof MAIN_DICT === "object" && Object.keys(MAIN_DICT).length > 0) {
       clearInterval(waitDict);
 
-      // createTextNode
+      // createTextNode hook
       const nativeCreateTextNode = document.createTextNode.bind(document);
       document.createTextNode = function (data) {
         const translated = typeof data === "string" ? process(data) : data;
@@ -353,7 +355,7 @@
         }
         return origParse(...args);
       };
-      console.log("[i18n] Parser.parse hooked (production)");
+      console.log("[i18n] Parser.parse hooked");
     }
   }, 50);
 })();
