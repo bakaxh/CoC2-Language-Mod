@@ -6,11 +6,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
   fullscreen: () => ipcRenderer.send("fullscreen"),
   unfullscreen: () => ipcRenderer.send("unfullscreen"),
   isFullscreen: () => !!ipcRenderer.sendSync("isFullscreen"),
-
   isSteam: () => false,
-  readFile: (filePath) => ipcRenderer.invoke("read-file", filePath),
-  writeFile: (filePath, content) =>
-    ipcRenderer.invoke("write-file", filePath, content),
-  getUserDataPath: () => ipcRenderer.sendSync("get-user-data-path"),
-  lunaCopyText: (text) => ipcRenderer.send("copy-text", text),
+ vm: {
+    translate: (text, ctx) =>
+      ipcRenderer.invoke("vm:translate", { text, ctx }),
+
+    batch: (texts, ctx) =>
+      ipcRenderer.invoke("vm:batch", { texts, ctx })
+  }
 });
+
