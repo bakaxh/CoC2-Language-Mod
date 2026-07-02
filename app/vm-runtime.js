@@ -140,6 +140,7 @@
   }
 
   function tokenize(str) {
+    // if(str!="") log(`[tokenize] raw: "${show(str)}"`);
     const out = [];
     let buf = "";
 
@@ -153,7 +154,7 @@
     for (let i = 0; i < str.length; i++) {
       const c = str[i];
 
-      // HTML
+      // HTML 标签：找到第一个 >
       if (c === "<") {
         const end = str.indexOf(">", i);
         if (end !== -1) {
@@ -164,20 +165,24 @@
         }
       }
 
-      // [...]
+      // [...] 标签：按深度匹配
       if (c === "[") {
-        const end = str.indexOf("]", i);
-        if (end !== -1) {
-          flush();
-          const tag = str.slice(i, end + 1);
-          if (isControlToken(tag)) {
-            out.push({ type: "control", value: tag });
-          } else {
-            out.push({ type: "tag", value: tag });
-          }
-          i = end;
-          continue;
+        flush();
+        let depth = 1;
+        let j = i + 1;
+        while (j < str.length && depth > 0) {
+          if (str[j] === "[") depth++;
+          else if (str[j] === "]") depth--;
+          j++;
         }
+        const tag = str.slice(i, j);
+        if (isControlToken(tag)) {
+          out.push({ type: "control", value: tag });
+        } else {
+          out.push({ type: "tag", value: tag });
+        }
+        i = j - 1;
+        continue;
       }
 
       buf += c;
@@ -207,7 +212,6 @@
     const ast = tokenize(str);
     return transform(ast);
   }
-
 
   const waitDict = setInterval(() => {
     if (typeof MAIN_DICT === "object" && Object.keys(MAIN_DICT).length > 0) {
