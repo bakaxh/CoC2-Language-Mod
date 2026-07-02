@@ -38,9 +38,9 @@
 
   let Patch = [
     "./translation/patch/patch_0.json",
-    // "./translation/patch/patch_1.json",
-    // "./translation/patch/patch_2.json",
-    // "./translation/patch/patch_3.json",
+    "./translation/patch/patch_1.json",
+    "./translation/patch/patch_2.json",
+    "./translation/patch/patch_3.json",
     // "./translation/patch/patch_4.json",
     // "./translation/patch/patch_5.json",
     // "./translation/patch/patch_6.json",
@@ -66,6 +66,8 @@
 
   const t = (s) => {
     if (typeof s !== "string") return s;
+    // &nbsp; to space
+    s = s.replace(/&nbsp;/g, " ");
 
     // 缓存检查
     if (translationCache.has(s)) return translationCache.get(s);
@@ -124,7 +126,7 @@
     const result = leadingNewlines + translatedCore + trailingNewlines;
 
     if (result !== s) {
-      verbose(`[auto] "${show(s)}" => "${show(result)}"`);
+      console.warn(`[auto] "${show(s)}" => "${show(result)}"`);
       translationCache.set(s, result);
       return result;
     }
