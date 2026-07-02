@@ -1,10 +1,11 @@
 (() => {
   console.log("[i18n] translation runtime");
-  console.log("[i18n] by bakaxh");
+  console.debug("[i18n] by bakaxh");
 
   const DEBUG = true;
   const show = (str) => str.replace(/\n/g, "\\n");
   const log = (...a) => DEBUG && console.log(...a);
+  const verbose = (...a) => DEBUG && console.debug(...a);
 
   let MAIN_DICT = {};
   let ENUM_DICT = {};
@@ -18,7 +19,7 @@
         MAIN_DICT[trimmedKey] = j[key];
       }
       window.__MAIN_DICT = MAIN_DICT;
-      console.log("[i18n] dict main loaded:", Object.keys(MAIN_DICT).length);
+      verbose("[i18n] dict main loaded:", Object.keys(MAIN_DICT).length);
     });
 
   fetch("./translation/enums.json")
@@ -30,10 +31,38 @@
         ENUM_DICT[trimmedKey] = j[key];
       }
       window.__ENUM_DICT = ENUM_DICT;
-      console.log("[i18n] dict enum loaded:", Object.keys(ENUM_DICT).length);
+      verbose("[i18n] dict enum loaded:", Object.keys(ENUM_DICT).length);
     });
 
   const translationCache = new Map();
+
+  let Patch = [
+    "./translation/patch/patch_0.json",
+    // "./translation/patch/patch_1.json",
+    // "./translation/patch/patch_2.json",
+    // "./translation/patch/patch_3.json",
+    // "./translation/patch/patch_4.json",
+    // "./translation/patch/patch_5.json",
+    // "./translation/patch/patch_6.json",
+    // "./translation/patch/patch_7.json",
+  ];
+
+  if (Patch.length > 0) {
+    for (let i = 0; i < Patch.length; i++) {
+      fetch(Patch[i])
+        .then((r) => r.json())
+        .then((j) => {
+          for (const key of Object.keys(j)) {
+            const trimmedKey = key.trim();
+            MAIN_DICT[trimmedKey] = j[key];
+          }
+          verbose(
+            "[i18n] dict patch (" + Patch[i] + ") loaded:",
+            Object.keys(MAIN_DICT).length,
+          );
+        });
+    }
+  }
 
   const t = (s) => {
     if (typeof s !== "string") return s;
@@ -44,6 +73,7 @@
     // 精确匹配
     if (MAIN_DICT[s] !== undefined) {
       translationCache.set(s, MAIN_DICT[s]);
+      verbose(`[exact] "${show(s)}" => "${show(MAIN_DICT[s])}"`);
       return MAIN_DICT[s];
     }
 
@@ -58,6 +88,7 @@
     if (MAIN_DICT[core] !== undefined) {
       const result = leadingNewlines + MAIN_DICT[core] + trailingNewlines;
       translationCache.set(s, result);
+      verbose(`[exact2] "${show(s)}" => "${show(result)}"`);
       return result;
     }
 
@@ -68,7 +99,7 @@
 
     if (core.length > 80 || /[<\[%]/.test(core) || core.trim().length === 0) {
       translationCache.set(s, s);
-      console.log(`[untranslated] "${show(s)}"`);
+      log(`[untranslated1] "${show(s)}"`);
       return s;
     }
 
@@ -76,7 +107,7 @@
     const words = core.split(/\s+/);
     if (words.length > 5) {
       translationCache.set(s, s);
-      console.log(`[untranslated] "${show(s)}"`);
+      log(`[untranslated2] "${show(s)}"`);
       return s;
     }
 
@@ -93,13 +124,13 @@
     const result = leadingNewlines + translatedCore + trailingNewlines;
 
     if (result !== s) {
-      console.log(`[auto] "${show(s)}" => "${show(result)}"`);
+      verbose(`[auto] "${show(s)}" => "${show(result)}"`);
       translationCache.set(s, result);
       return result;
     }
 
     translationCache.set(s, s);
-    console.log(`[untranslated] "${show(s)}"`);
+    log(`[untranslated3] "${show(s)}"`);
     return s;
   };
   setInterval(() => translationCache.clear(), 60000);
@@ -127,6 +158,7 @@
   }
 
   let origParse = null;
+  let origTextify = null;
 
   function resolveTag(tag) {
     if (origParse) {
@@ -140,7 +172,7 @@
   }
 
   function tokenize(str) {
-    // if(str!="") log(`[tokenize] raw: "${show(str)}"`);
+    // if (str != "") log(`[tokenize] raw: "${show(str)}"`);
     const out = [];
     let buf = "";
 
@@ -175,7 +207,7 @@
           else if (str[j] === "]") depth--;
           j++;
         }
-        const tag = str.slice(i, j);
+        const tag = str.slice(i, j); // 包含最外层 []
         if (isControlToken(tag)) {
           out.push({ type: "control", value: tag });
         } else {
@@ -223,7 +255,7 @@
         const translated = typeof data === "string" ? process(data) : data;
         return nativeCreateTextNode(translated);
       };
-      console.log("[i18n] createTextNode hooked");
+      verbose("[i18n] createTextNode hooked");
 
       // textContent hook
       const nativeTextContentDescriptor = Object.getOwnPropertyDescriptor(
@@ -251,7 +283,7 @@
         },
         configurable: true,
       });
-      console.log("[i18n] textContent setter hooked");
+      verbose("[i18n] textContent setter hooked");
 
       // innerHTML hook
       const innerHTMLDescriptor = Object.getOwnPropertyDescriptor(
@@ -279,7 +311,7 @@
         },
         configurable: true,
       });
-      console.log("[i18n] innerHTML setter hooked");
+      verbose("[i18n] innerHTML setter hooked");
 
       // nodeValue hook
       const nodeValueDescriptor = Object.getOwnPropertyDescriptor(
@@ -308,7 +340,7 @@
           },
           configurable: true,
         });
-        console.log("[i18n] nodeValue setter hooked");
+        verbose("[i18n] nodeValue setter hooked");
       } else {
         console.warn("[i18n] nodeValue hook failed (no descriptor)");
       }
@@ -340,12 +372,53 @@
           },
           configurable: true,
         });
-        console.log("[i18n] data setter hooked");
+        verbose("[i18n] data setter hooked");
       } else {
         console.warn("[i18n] data hook failed (no descriptor)");
       }
     }
   }, 100);
+
+  const waitTextify = setInterval(() => {
+    if (window.textify) {
+      clearInterval(waitTextify);
+      origTextify = window.textify;
+
+      window.textify = function (...args) {
+        // console.log("[i18n] textify called with args:", args);
+
+        let templateStr = null;
+
+        if (typeof args[0] === "string") {
+          templateStr = args[0];
+        } else if (
+          Array.isArray(args[0]) &&
+          args[0].length === 1 &&
+          typeof args[0][0] === "string"
+        ) {
+          templateStr = args[0][0];
+        }
+
+        if (templateStr) {
+          const translated = process(templateStr);
+
+          if (typeof args[0] === "string") {
+            args[0] = translated;
+          } else if (
+            Array.isArray(args[0]) &&
+            args[0].length === 1 &&
+            typeof args[0][0] === "string"
+          ) {
+            args[0] = [translated];
+          }
+        }
+
+        return origTextify.apply(this, args);
+      };
+
+      verbose("[i18n] textify hooked");
+    }
+  }, 50);
 
   const waitParser = setInterval(() => {
     if (window.Parser?.parse) {
@@ -359,7 +432,7 @@
         }
         return origParse(...args);
       };
-      console.log("[i18n] Parser.parse hooked");
+      verbose("[i18n] Parser.parse hooked");
     }
   }, 50);
 })();
