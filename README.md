@@ -1,33 +1,26 @@
-# CoC2 内嵌中文翻译补丁
+# CoC2 Embedded Translation Patch
 
-基于CoC2LunaAdapter原仓库 https://github.com/Twispra/CoC2LunaAdapter/
+This directory is for the embedded translation for CoC2. It injects a general DOM text hook script into the Electron page of the local game.
 
-这个目录是给 CoC2 使用的本地内嵌翻译。在本机游戏的 Electron 页面里注入一个通用 DOM 文本hook脚本。
+## Development Notes
 
-## 开发说明
+Replace the files in the directory with the corresponding files in the game installation directory's resources/app directory.
 
-将patch目录下的文件替换到游戏安装目录的resources/app目录下。
+## Debugging Notes
 
-enums.json: 包含游戏中的枚举值(%s、%d、%f)对应的中文翻译。
+Press Ctrl+Shift+I to open the developer tools, then switch to the Console tab.
 
-main.json: 包含游戏中所有的 UI 文本。
+Select Verbose in Console Level to view the translated text.
 
-## 调试说明
+## Working Method
 
-Ctrl+Shift+I 打开开发者工具，切换到 Console 标签页。
+1. Load main.json and enums.json through fetch to build a dictionary.
+2. Tokenize the text into ordinary text, HTML tags, and custom tags.
+3. Use precise matching from main.json to replace the text.
+4. Parse and translate HTML tags and custom tags.
+5. Hook document.createTextNode, Node.textContent, Element.innerHTML, Node.nodeValue, and CharacterData.data.
+6. Hook window.textify and Parser.parse to implement template strings and custom parsers.
 
-打开Console Level选择Verbose 查看已翻译的文本。
+## Disclaimer
 
-## 工作方式
-
-1. 通过 fetch 加载 main.json 和 enums.json，构建字典。
-2. 通过 tokenize 将文本分解为普通文本、HTML 标签和自定义标签。
-3. 使用 main.json 的精确匹配替换文本。
-4. 对 HTML 标签和自定义标签进行解析和翻译。
-5. hook document.createTextNode、Node.textContent、Element.innerHTML、Node.nodeValue 和 CharacterData.data。
-6. hook window.textify 和 Parser.parse，实现模板字符串和自定义解析器的翻译。
-
-## 免责声明
-
-本翻译补丁仅供个人使用，不保证翻译的准确性。使用本补丁即表示您同意承担由此产生的任何风险。
-版权归原作者所有，翻译补丁仅为个人学习和使用目的，不得用于商业用途。
+This translation patch is for personal use only and does not guarantee the accuracy of the translation. By using this patch, you agree to assume any risks that may arise from its use. The copyright of the original author is hereby acknowledged, and the translation patch is for personal learning and use purposes only and may not be used for commercial purposes.
